@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultDisplay = document.getElementById('result');
     const widht = 4;
     let squares = [];
+    let score = 0;
 
     //Creatign a play board
     function createBoard(){
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let randomNumber = Math.floor(Math.random() * squares.length)
         if(squares[randomNumber].innerHTML == 0){
             squares[randomNumber].innerHTML = 2;
+            checkForGameOver();
         } else generate();
     }
 
@@ -116,6 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 let combinedTotal = parseInt(squares[i].innerHTML) + parseInt(squares[i+1].innerHTML);
                 squares[i].innerHTML = combinedTotal;
                 squares[i+1].innerHTML = 0;
+                score += combinedTotal;
+                scoreDisplay.innerHTML = score;
             }
         }
         CheckWin();
@@ -127,6 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 let combinedTotal = parseInt(squares[i].innerHTML) + parseInt(squares[i+widht].innerHTML);
                 squares[i].innerHTML = combinedTotal;
                 squares[i+widht].innerHTML = 0;
+                score += combinedTotal;
+                scoreDisplay.innerHTML = score;
             }
         }
         CheckWin();
@@ -182,6 +188,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultDisplay.innerHTML = 'You Win';
                 document.removeEventListener('keyup', control);
             }
+        }
+    }
+
+    //check for game over
+    function checkForGameOver(){
+        let zeros = 0;
+        for(let i =0; i < squares.length; i++){
+            if(squares[i].innerHTML == 0){
+                zeros++;
+            }
+        }
+        if(zeros === 0){
+            resultDisplay.innerHTML = 'You Loose!';
+            document.removeEventListener('keyup', control);
         }
     }
 
